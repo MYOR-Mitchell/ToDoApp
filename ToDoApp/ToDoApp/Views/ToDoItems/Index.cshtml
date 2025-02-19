@@ -1,0 +1,44 @@
+﻿@model IEnumerable<ToDoApp.Models.ToDoItem>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2 class="text-center">To-Do List</h2>
+
+<p class="text-center">
+    <a asp-action="Create">Create New Task</a>
+</p>
+
+<form method="post" asp-action="SaveTasks">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.Task)</th>
+                <th>@Html.DisplayNameFor(model => model.Completed)</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.Task)</td>
+                    <td>
+                        <input type="checkbox" name="completed[@item.Id]" value="true" @(item.Completed ? "checked" : "") />
+                        <input type="hidden" name="completed[@item.Id]" value="false" />
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="d-flex justify-content-center">
+        <button type="submit" class="btn btn-sm btn-primary align-content-center">Save</button>
+    </div>
+</form>
